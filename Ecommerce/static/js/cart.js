@@ -1,3 +1,4 @@
+var updateBtns = document.getElementsByClassName('update-cart')
 for (var i = 0; i < updateBtns.length; i++) {
     updateBtns[i].addEventListener("click", function () {
         var productID = this.dataset.product;
@@ -9,7 +10,7 @@ for (var i = 0; i < updateBtns.length; i++) {
         if (user == "AnonymousUser") {
             console.log("User is not logged in.");
         } else {
-            console.log("User is logged in:", user);
+            updateUserOrder(productID,action)
         }
     });
 }
@@ -23,11 +24,12 @@ function updateUserOrder(productID,action)
     fetch(url, {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'X-CSRFToken' : csrftoken
         },
         body:JSON.stringify({
-            'productID ' : productID,
-            'action ' : action 
+            'productID':productID,
+            'Action':action 
         })
 })
  .then((response)=>{
@@ -35,6 +37,7 @@ function updateUserOrder(productID,action)
  })
     
  .then((data)=>{
-    console.log('Data : ', data)
+     console.log('Data : ', data)
  })
-    }
+
+}
